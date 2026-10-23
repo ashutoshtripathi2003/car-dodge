@@ -4,9 +4,18 @@ A 2D arcade car-dodging game built for the **2D Game Design and System Modeling*
 
 **Team:** Atharva Bhosale (24101C0008) · Pranay Upadhyay (24101C0024) · Burhanuddin Lokhandwala (24101C0013) · Ashwin Agarwal (24101C0015)
 
-## How to play
+## How to run
 
-Open `CarDodge_standalone.html` in any modern browser (Chrome, Edge, Firefox). No installation is needed.
+1. Download the project (**Code → Download ZIP** on GitHub) and extract it, or clone it:
+   ```bash
+   git clone https://github.com/ashutoshtripathi2003/car-dodge.git
+   ```
+2. Open `index.html` in any modern browser (Chrome, Edge, Firefox). No installation or server is needed.
+
+Keep the `css/` and `js/` folders next to `index.html`; the page loads its styles and game code from them.
+The two fonts load from Google Fonts when online; offline, the game falls back to system fonts and plays the same.
+
+## How to play
 
 | Key | Action |
 |---|---|
@@ -50,7 +59,19 @@ On phones, press and hold either half of the road, or use the ◀ ▶ buttons.
 
 No external libraries or game engine are used.
 
-## Code structure (inside `index.html`)
+## Project structure
+
+```
+car-dodge/
+├── index.html       # HTML – page structure: HUD, menus, buttons and the <canvas>
+├── css/
+│   └── style.css    # CSS – colours, fonts, layout, responsive design
+├── js/
+│   └── game.js      # JavaScript – all game logic, rendering and sound
+└── README.md
+```
+
+## Code structure (`js/game.js`)
 
 | Module | Responsibility |
 |---|---|
@@ -63,7 +84,12 @@ No external libraries or game engine are used.
 | `ScoreManager` | Score, coins and best score |
 | `Sound` | Music sequencer, engine sound and sound effects |
 
-## Files
+## How the game loop works
 
-- `index.html` – game source (body content, as published online)
-- `CarDodge_standalone.html` – complete page to open offline / submit
+Every frame (about 60 times a second, via `requestAnimationFrame`):
+
+1. **Read input** – keyboard or touch sets the steering direction
+2. **Update** – move the player, traffic, coins and power-ups; advance the score and level
+3. **Check collisions** – AABB for cars, circle-vs-rectangle for pickups
+4. **Render** – draw road, pickups, traffic, player and HUD on the canvas
+5. **Repeat** until a crash ends the game (unless a shield is active)
